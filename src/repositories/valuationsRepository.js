@@ -1,6 +1,4 @@
-const bcrypt = require('bcrypt');
 const Valuation = require('../models/valuation');
-
 class ValuationRepository {
 
     constructor(){

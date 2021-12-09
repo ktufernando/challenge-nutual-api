@@ -5,22 +5,32 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx nodemon src",
-    "start": "node src"
+    "start": "node src",
+    "test": "node postman/newman",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ktufernando/challenge-nutual-api.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Fernando Valdes",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ktufernando/challenge-nutual-api/issues"
   },
   "homepage": "https://github.com/ktufernando/challenge-nutual-api#readme",
+  "lint-staged": {
+    "*.{js,json}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
   "dependencies": {
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-validator": "^6.13.0",
     "mongoose": "^6.1.1",
     "mongoose-unique-validator": "^3.0.0",
     "morgan": "^1.10.0",
@@ -28,6 +38,11 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.2",
+    "newman": "^5.3.0",
+    "newman-reporter-htmlextra": "^1.22.3",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
   }
 }
