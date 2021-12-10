@@ -1,7 +1,7 @@
 const newman = require('newman');
 
 newman.run({
-    collection: 'postman/ValuationsTests.postman_collection.json', // Collection URL from a public link or the Postman API can also be used
+    collection: 'postman/Challenge-Nutual.postman_collection.json',
     environment: 'postman/Local.postman_environment.json',
     reporters: ['htmlextra'],
     iterationCount: 1,

@@ -1,0 +1,340 @@
+{
+	"info": {
+		"_postman_id": "ea6b7102-ffb2-4fae-8deb-c48150966625",
+		"name": "Challenge-Nutual",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Save Valuation",
+			"item": [
+				{
+					"name": "Save Valuation - Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is not 500\", function () {\r",
+									"    pm.response.to.not.have.status(500);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 2500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is json\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response have correct properties\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('data');\r",
+									"    pm.expect(jsonData.data).to.have.property('price_m2');\r",
+									"    pm.expect(jsonData.data.price_m2).to.be.an('number');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"randomZipCode\", _.random(00000, 99999));\r",
+									"pm.collectionVariables.set(\"randomLat\", _.random(1.11111, 99.99999));\r",
+									"pm.collectionVariables.set(\"randomLon\", _.random(1.11111, 99.99999));\r",
+									"pm.collectionVariables.set(\"randomYear1\", _.random(1900, 2009));\r",
+									"pm.collectionVariables.set(\"randomYear2\", _.random(2010, 2020));\r",
+									"pm.collectionVariables.set(\"randomArea\", _.random(40, 200));\r",
+									"pm.collectionVariables.set(\"randomM2\", _.random(2000, 5000));\r",
+									"pm.collectionVariables.set(\"ramdomPrice\", pm.collectionVariables.get(\"randomM2\") * pm.collectionVariables.get(\"randomArea\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"address\": \"Calle Falsa {{$randomInt}}\",\r\n  \"latitude\": {{randomLat}},\r\n  \"longitude\": {{randomLon}},\r\n  \"zipcode\": \"{{randomZipCode}}\",\r\n  \"city\": \"Ciudad Falsa {{$randomInt}}\",\r\n  \"year_of_construction\": {{randomYear1}},\r\n  \"year_of_renovation\": {{randomYear2}},\r\n  \"total_price\": {{ramdomPrice}},\r\n  \"total_area\": {{randomArea}},\r\n  \"price_m2\": {{randomM2}},\r\n  \"has_elevator\": false,\r\n  \"valuation_date\": \"01/12/2021\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{basepath}}/valuations",
+							"host": [
+								"{{basepath}}"
+							],
+							"path": [
+								"valuations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save User - Failure",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is not 500\", function () {\r",
+									"    pm.response.to.not.have.status(500);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 1500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is json\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response have correct properties\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error).to.have.property('message');\r",
+									"    pm.expect(jsonData.error.message).to.be.an('string');\r",
+									"    pm.expect(jsonData.error).to.have.property('detail');\r",
+									"    pm.expect(jsonData.error.detail).to.be.an('object');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"address\": \"C. Berruguete 78\",\r\n  \"latitude\": 40.46018,\r\n  \"longitude\": -3.70516,\r\n  \"zipcode\": \"28039\",\r\n  \"city\": \"Barcelona\",\r\n  \"year_of_construction\": 1980,\r\n  \"year_of_renovation\": 2020,\r\n  \"total_price\": 496000,\r\n  \"total_area\": 80,\r\n  \"price_m2\": 6200,\r\n  \"has_elevator\": true,\r\n  \"valuation_date\": \"01/12/2021\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{basepath}}/valuations",
+							"host": [
+								"{{basepath}}"
+							],
+							"path": [
+								"valuations"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get M2 Average Valuation",
+			"item": [
+				{
+					"name": "Get M2 Average Valuation - Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is not 500\", function () {\r",
+									"    pm.response.to.not.have.status(500);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is json\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response have correct properties\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('data');\r",
+									"    pm.expect(jsonData.data).to.have.property('average');\r",
+									"    pm.expect(jsonData.data.average).to.be.an('number');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{basepath}}/valuations/:city",
+							"host": [
+								"{{basepath}}"
+							],
+							"path": [
+								"valuations",
+								":city"
+							],
+							"variable": [
+								{
+									"key": "city",
+									"value": "Barcelona"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get M2 Average Valuation - Failure",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is not 500\", function () {\r",
+									"    pm.response.to.not.have.status(500);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response is json\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response have correct properties\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('error');\r",
+									"    pm.expect(jsonData.error).to.have.property('message');\r",
+									"    pm.expect(jsonData.error.message).to.be.an('string');\r",
+									"    pm.expect(jsonData.error).to.have.property('detail');\r",
+									"    pm.expect(jsonData.error.detail).to.be.an('array');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{basepath}}/valuations/:city",
+							"host": [
+								"{{basepath}}"
+							],
+							"path": [
+								"valuations",
+								":city"
+							],
+							"variable": [
+								{
+									"key": "city",
+									"value": "Florida"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "randomZipCode",
+			"value": ""
+		},
+		{
+			"key": "randomLatLon",
+			"value": ""
+		},
+		{
+			"key": "randomLat",
+			"value": ""
+		},
+		{
+			"key": "randomLon",
+			"value": ""
+		},
+		{
+			"key": "randomYear1",
+			"value": ""
+		},
+		{
+			"key": "randomYear2",
+			"value": ""
+		},
+		{
+			"key": "randomArea",
+			"value": ""
+		},
+		{
+			"key": "randomM2",
+			"value": ""
+		},
+		{
+			"key": "ramdomPrice",
+			"value": ""
+		}
+	]
+}

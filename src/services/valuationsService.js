@@ -1,3 +1,4 @@
+const parse = require('date-fns/parse')
 const ValuationRepository = require('../repositories/valuationsRepository');
 const repository = new ValuationRepository();
 
@@ -6,6 +7,7 @@ const findById = async(id) => {
 }
 
 const save = async(valuation) => {
+    valuation.valuation_date = parse(valuation.valuation_date, 'dd/MM/yyyy', new Date());
     return await repository.save(valuation);
 }
 

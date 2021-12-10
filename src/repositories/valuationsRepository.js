@@ -31,7 +31,7 @@ class ValuationRepository {
 
         return await Valuation.aggregate([
             { $match: { city: { $regex: city, $options:'i' } } },
-            { $group: { _id: '$city', average: { $avg: '$priceM2' } } },
+            { $group: { _id: '$city', average: { $avg: '$price_m2' } } },
           ]).exec();
     }
 

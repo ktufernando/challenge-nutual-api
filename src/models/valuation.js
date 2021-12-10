@@ -5,8 +5,7 @@ const Schema = mongoose.Schema;
  
 const valuationSchema = new Schema({
         address: {
-            type: String,
-            unique: true
+            type: String
         },
         latitude: {
             type: Number,
@@ -22,15 +21,15 @@ const valuationSchema = new Schema({
             required: [true, 'City required'],
             index: true
         },
-        yearOfConstruction: Number,
-        yearOfRenovation: Number,
-        totalPrice: Number,
-        totalArea: Number,
-        priceM2: {
+        year_of_construction: Number,
+        year_of_renovation: Number,
+        total_price: Number,
+        total_area: Number,
+        price_m2: {
             type: Number,
             required: [true, 'Price M2 required'],
         },
-        hasElevator: {
+        has_elevator: {
             type: Boolean,
             default: false
         },
