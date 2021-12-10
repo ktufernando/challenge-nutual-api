@@ -40,7 +40,8 @@ const valuationSchema = new Schema({
 );
 
 valuationSchema.index({ latitude: 1, longitude: 1}, { unique: true });
+valuationSchema.index({ address: 1, zipcode: 1, city: 1}, { unique: true });
 
-valuationSchema.plugin(uniqueValidator, {message: 'Already exist in the DB'});
+valuationSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('valuations', valuationSchema);

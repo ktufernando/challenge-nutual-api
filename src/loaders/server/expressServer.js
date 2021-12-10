@@ -37,7 +37,13 @@ class ExpressServer {
             res.status(200).end();
         });
 
-        this.app.use(this.basePathValuations, require('../../routes/valuations'));
+        this.app.get("/tests-report", (req, res) => {
+            res.sendFile(
+                path.join(__dirname + '../../../../postman/report.html')
+            );
+        });
+
+        this.app.use(this.basePathValuations, require('../../routes/valuationsRoute'));
     }
 
     _notFound() {
@@ -50,7 +56,9 @@ class ExpressServer {
 
     _errorHandler() {
         this.app.use((err, req, res, next) => {
-            const code = err.code || 500;
+            let code = err.code || 500;
+            if(err.name && err.name === 'ValidationError')
+                code = 400;
 
             logger.error(`${code} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             logger.error(err.stack);
@@ -58,7 +66,8 @@ class ExpressServer {
             const body = {
                 error: {
                     code,
-                    message: err.message
+                    message: err.message,
+                    detail: err.errors
                 }
             }
             res.status(code).json(body);

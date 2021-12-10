@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "API Rest base repo.",
-    "description": "## This is a base api to start new projects.",
+    "title": "API for Nutual challenge",
+    "description": "## Challenge for Nutual company. API to retrieve the average value of the m2 of a city.",
     "version": "1.0.0",
     "contact": {
       "email": "fervaldes11@gmail.com"
@@ -11,127 +11,77 @@
   
   "servers":[
     {
-      "url":"http://localhost:4000/api/v1",
-      "description": "Desarrollo"  
+      "url":"https://challenge-nutual-api.herokuapp.com/api/v1",
+      "description": "Producción"  
     },
     {
-      "url":"https://node-06-restserver.herokuapp.com/api/v1",
-      "description": "Producción"  
-    } 
+      "url":"http://localhost:4000/api/v1",
+      "description": "Desarrollo"  
+    }
   ],
   "tags": [    
     {
-      "name": "users",
-      "description": "Operations about users."
+      "name": "Valuations",
+      "description": "Operations about real state valuations."
     }
   ],
   "paths": {    
-    "/users/": {
+    "/valuations/{city}": {
       "get": {
         "tags": [
-          "users"
+          "Valuations"
         ],
-        "summary": "Get a list of all existing users.",
-        "description": "",             
+        "summary": "Get a real state average valuation for a specific city.",
+        "description": "## Endpoint to get an average real estate valuation for a specific city. \n\n ### Success use cases: \n\n - Barcelona > Response with data of average valuation \n\n ### Failure use cases: \n\n - Florida > Without data",             
+        "parameters": [
+          {
+            "name": "city",
+            "in": "path",
+            "type": "string",
+            "description": "City of which you want to obtain the valuation of m2",
+            "required": true,
+            "example": "Barcelona"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "The array of users in JSON format.",
-            "content": {
-              "application/json":{
-                "schema":{
-                  "type": "array",
-                  "items":{
-                    "$ref": "#/components/schemas/User"                    
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/Valuation"
+          },
+          "400": {
+            "$ref": "#/components/responses/WithoutData"
+          },
+          "500": {
+            "$ref": "#/components/responses/CommonError"
           }
         }
-      },
+      }
+    },
+    "/valuations": {
       "post": {
         "tags": [
-          "users"
+          "Valuations"
         ],
-        "summary": "Create a new user.",
-        "description": "",
+        "summary": "Create a new valuation.",
+        "description": "## Enpoint to persist the valuation of a real estate. \n\n This service was created only to fill the database with data. In the solution there should be a program that takes the data from the maching learning models and persists it in the database of this API. \n\n ### Request object example: \n\n        { \n\n            \"address\":\"Carrer de Pau Alsina 10, Principal A\", \n\n            \"latitude\":41.410610, \n\n            \"longitude\":2.161880, \n\n            \"zipcode\":\"08025\", \n\n            \"city\":\"Barcelona\", \n\n            \"yearOfConstruction\":1900, \n\n            \"yearOfRenovation\":2020, \n\n            \"totalPrice\":450000, \n\n            \"totalArea\":83, \n\n            \"priceM2\":5421, \n\n            \"hasElevator\":true, \n\n            \"valuationDate\":\"10/09/2021\" \n\n        } \n\n ### Notas: \n\n - Address, Zipcode y City have a unique compound constraint. \n\n - Latitude y Longitude have a unique compound constraint. \n\n - City, Latitude y Longitude have a index.",
+        "consumes": "application/json",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/Valuation"
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": "User created."
-          }
-        }
-      }
-    },
-    "/users/{id}": {
-      "put": {
-        "tags": [
-          "users"
-        ],
-        "summary": "Update an existing user by providing the id.",
-        "description": "",           
-        "parameters":[          
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The id of the user that needs to be updated.",
-            "required": true,
-            "schema": {
-              "type":"integer"
-            }
-          }          
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        }, 
-        "responses": {
           "200": {
-            "description": "The user updated",
-            "content":{
-              "application/json":{
-                "schema":{
-                  "type": "object",
-                  "$ref": "#/components/schemas/User" 
-                }
-              }              
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "users"
-        ],
-        "summary": "Delete an existing user by providing the id.",
-        "description": "",
-        "parameters":[          
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The id of the user that needs to be deleted.",
-            "required": true,
-            "schema": {
-              "type":"integer"
-            }
-          }          
-        ],     
-        "responses": {
-          "200": {
-            "description": "User deleted."
+            "$ref": "#/components/responses/Created"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "500": {
+            "$ref": "#/components/responses/CommonError"
           }
         }
       }
@@ -139,21 +89,188 @@
   },
   "components": {
     "schemas": {
-      "User": {
-        "required": [
-          "id"
-        ],
+      "Valuation": {
         "type": "object",
         "properties": {
-          "id":{
-            "description": "The user id.",
-            "type": "integer",          
-            "example": "3"
+          "address": {
+            "type": "string"
           },
-          "name":{
-            "description": "The user name.",
-            "type":"string",          
-            "example":"Adrian"
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "zipcode": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "yearOfConstruction": {
+            "type": "number"
+          },
+          "yearOfRenovation": {
+            "type": "number"
+          },
+          "totalPrice": {
+            "type": "number"
+          },
+          "totalArea": {
+            "type": "number"
+          },
+          "priceM2": {
+            "type": "number"
+          },
+          "hasElevator": {
+            "type": "boolean"
+          },
+          "valuation_date": {
+            "type": "date"
+          }
+        },
+        "example": {
+          "address":"Carrer de Pau Alsina 10, Principal A",
+          "latitude":41.410610,
+          "longitude":2.161880,
+          "zipcode":"08025",
+          "city":"Barcelona",
+          "yearOfConstruction":1900,
+          "yearOfRenovation":2020,
+          "totalPrice":450000,
+          "totalArea":83,
+          "priceM2":5421,
+          "hasElevator":true,
+          "valuationDate":"10/09/2021"
+        }
+      }
+    },
+    "responses": {
+      "CommonError": {
+        "description": "Internal error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "example": {
+                "error": {
+                  "code": 500,
+                  "message": "Error message detail"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Valuation": {
+        "description": "Valuation data of the m2 of a city.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "example": {
+                "status": "OK",
+                "data": {
+                  "_id": "Madrid",
+                  "average": 7750
+                }
+              }
+            }
+          }
+        }
+      },
+      "Created": {
+        "description": "Valuation created.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "example": {
+                "valuation": {
+                  "status": "OK",
+                  "data": {
+                    "address": "Carrer de Pau Alsina 10, Principal A",
+                    "latitude": 41.41061,
+                    "longitude": 2.16188,
+                    "zipcode": "08025",
+                    "city": "Barcelona",
+                    "yearOfConstruction": 1900,
+                    "yearOfRenovation": 2020,
+                    "totalPrice": 450000,
+                    "totalArea": 83,
+                    "priceM2": 5421,
+                    "hasElevator": true,
+                    "_id": "61b297d2702283b40531a91f",
+                    "createdAt": "2021-12-09T23:57:09.787Z",
+                    "updatedAt": "2021-12-09T23:57:09.787Z",
+                    "__v": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "WithoutData": {
+        "description": "Without Data for this city.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "example": {
+                "error": {
+                  "code": 400,
+                  "message": "Validarion Errors",
+                  "detail": [
+                    {
+                      "value": "Florida",
+                      "msg": "The city do not have valuations",
+                      "param": "city",
+                      "location": "params"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Bad request.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "example": {
+                "error": {
+                  "code": 400,
+                  "message": "valuations validation failed: longitude: Error, expected `longitude` to be unique. Value: `2.16188`, latitude: Error, expected `latitude` to be unique. Value: `41.41061`",
+                  "detail": {
+                    "longitude": {
+                      "name": "ValidatorError",
+                      "message": "Error, expected `longitude` to be unique. Value: `2.16188`",
+                      "properties": {
+                        "message": "Error, expected `longitude` to be unique. Value: `2.16188`",
+                        "type": "unique",
+                        "path": "longitude",
+                        "value": 2.16188
+                      },
+                      "kind": "unique",
+                      "path": "longitude",
+                      "value": 2.16188
+                    },
+                    "latitude": {
+                      "name": "ValidatorError",
+                      "message": "Error, expected `latitude` to be unique. Value: `41.41061`",
+                      "properties": {
+                        "message": "Error, expected `latitude` to be unique. Value: `41.41061`",
+                        "type": "unique",
+                        "path": "latitude",
+                        "value": 41.41061
+                      },
+                      "kind": "unique",
+                      "path": "latitude",
+                      "value": 41.41061
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

@@ -1,4 +1,5 @@
 const Valuation = require('../models/valuation');
+const AppError = require('../errors/appError');
 class ValuationRepository {
 
     constructor(){
@@ -24,6 +25,18 @@ class ValuationRepository {
 
     async remove(id) {
         return await Valuation.findByIdAndRemove(id);
+    }
+
+    async averageByCity(city) {
+
+        return await Valuation.aggregate([
+            { $match: { city: { $regex: city, $options:'i' } } },
+            { $group: { _id: '$city', average: { $avg: '$priceM2' } } },
+          ]).exec();
+    }
+
+    async thereAreValuationsForCity(city){
+        return await Valuation.findOne({ city: { $regex: city, $options:'i' } }).select("_id").lean();
     }
 }
 
