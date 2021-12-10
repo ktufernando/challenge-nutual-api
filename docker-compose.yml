@@ -1,0 +1,11 @@
+version: "2"
+services:
+  web:
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - LOG_LEVEL=silly
+      - DATABASE_URL=mongodb+srv://nutual:NrRW!24P8VYc5bP@cluster0.hrdf2.mongodb.net/nutual?retryWrites=true&w=majority

@@ -62,7 +62,7 @@
           "Valuations"
         ],
         "summary": "Create a new valuation.",
-        "description": "## Enpoint to persist the valuation of a real estate. \n\n This service was created only to fill the database with data. In the solution there should be a program that takes the data from the maching learning models and persists it in the database of this API. \n\n ### Request object example: \n\n        { \n\n            \"address\":\"Carrer de Pau Alsina 10, Principal A\", \n\n            \"latitude\":41.410610, \n\n            \"longitude\":2.161880, \n\n            \"zipcode\":\"08025\", \n\n            \"city\":\"Barcelona\", \n\n            \"yearOfConstruction\":1900, \n\n            \"yearOfRenovation\":2020, \n\n            \"totalPrice\":450000, \n\n            \"totalArea\":83, \n\n            \"priceM2\":5421, \n\n            \"hasElevator\":true, \n\n            \"valuationDate\":\"10/09/2021\" \n\n        } \n\n ### Notas: \n\n - Address, Zipcode y City have a unique compound constraint. \n\n - Latitude y Longitude have a unique compound constraint. \n\n - City, Latitude y Longitude have a index.",
+        "description": "## Enpoint to persist the valuation of a real estate. \n\n This service was created only to fill the database with data. In the solution there should be a program that takes the data from the maching learning models and persists it in the database of this API. \n\n ### Request object example: \n\n        { \n\n            \"address\":\"Carrer de Pau Alsina 10, Principal A\", \n\n            \"latitude\":41.410610, \n\n            \"longitude\":2.161880, \n\n            \"zipcode\":\"08025\", \n\n            \"city\":\"Barcelona\", \n\n            \"year_of_construction\":1900, \n\n            \"year_of_renovation\":2020, \n\n            \"total_price\":450000, \n\n            \"total_area\":83, \n\n            \"price_m2\":5421, \n\n            \"has_elevator\":true, \n\n            \"valuation_date\":\"10/09/2021\" \n\n        } \n\n ### Notas: \n\n - Address, Zipcode y City have a unique compound constraint. \n\n - Latitude y Longitude have a unique compound constraint. \n\n - City, Latitude y Longitude have a index.",
         "consumes": "application/json",
         "requestBody": {
           "content": {
@@ -107,22 +107,22 @@
           "city": {
             "type": "string"
           },
-          "yearOfConstruction": {
+          "year_of_construction": {
             "type": "number"
           },
-          "yearOfRenovation": {
+          "year_of_renovation": {
             "type": "number"
           },
-          "totalPrice": {
+          "total_price": {
             "type": "number"
           },
-          "totalArea": {
+          "total_area": {
             "type": "number"
           },
-          "priceM2": {
+          "price_m2": {
             "type": "number"
           },
-          "hasElevator": {
+          "has_elevator": {
             "type": "boolean"
           },
           "valuation_date": {
@@ -130,18 +130,18 @@
           }
         },
         "example": {
-          "address":"Carrer de Pau Alsina 10, Principal A",
-          "latitude":41.410610,
-          "longitude":2.161880,
-          "zipcode":"08025",
-          "city":"Barcelona",
-          "yearOfConstruction":1900,
-          "yearOfRenovation":2020,
-          "totalPrice":450000,
-          "totalArea":83,
-          "priceM2":5421,
-          "hasElevator":true,
-          "valuationDate":"10/09/2021"
+          "address": "C. de Atocha 70",
+          "latitude": 40.41171,
+          "longitude": -3.6977,
+          "zipcode": "28012",
+          "city": "Madrid",
+          "year_of_construction": 1900,
+          "year_of_renovation": 2020,
+          "total_price": 360000,
+          "total_area": 45,
+          "price_m2": 8000,
+          "has_elevator": false,
+          "valuation_date": "30/09/2021"
         }
       }
     },
@@ -186,20 +186,21 @@
                 "valuation": {
                   "status": "OK",
                   "data": {
-                    "address": "Carrer de Pau Alsina 10, Principal A",
-                    "latitude": 41.41061,
-                    "longitude": 2.16188,
-                    "zipcode": "08025",
-                    "city": "Barcelona",
-                    "yearOfConstruction": 1900,
-                    "yearOfRenovation": 2020,
-                    "totalPrice": 450000,
-                    "totalArea": 83,
-                    "priceM2": 5421,
-                    "hasElevator": true,
-                    "_id": "61b297d2702283b40531a91f",
-                    "createdAt": "2021-12-09T23:57:09.787Z",
-                    "updatedAt": "2021-12-09T23:57:09.787Z",
+                    "address": "C. de Atocha 70",
+                    "latitude": 40.41171,
+                    "longitude": -3.6977,
+                    "zipcode": "28012",
+                    "city": "Madrid",
+                    "year_of_construction": 1900,
+                    "year_of_renovation": 2020,
+                    "total_price": 360000,
+                    "total_area": 45,
+                    "price_m2": 8000,
+                    "has_elevator": false,
+                    "valuation_date": "2021-09-30T03:00:00.000Z",
+                    "_id": "61b2bdd10a6a28981682faf1",
+                    "createdAt": "2021-12-10T02:39:14.756Z",
+                    "updatedAt": "2021-12-10T02:39:14.756Z",
                     "__v": 0
                   }
                 }
