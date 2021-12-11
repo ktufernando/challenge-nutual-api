@@ -8,31 +8,29 @@
       "email": "fervaldes11@gmail.com"
     }
   },
-  
-  "servers":[
+
+  "servers": [
     {
-      "url":"https://challenge-nutual-api.herokuapp.com/api/v1",
-      "description": "Producción"  
+      "url": "https://challenge-nutual-api.herokuapp.com/api/v1",
+      "description": "Producción"
     },
     {
-      "url":"http://localhost:4000/api/v1",
-      "description": "Desarrollo"  
+      "url": "http://localhost:4000/api/v1",
+      "description": "Desarrollo"
     }
   ],
-  "tags": [    
+  "tags": [
     {
       "name": "Valuations",
       "description": "Operations about real state valuations."
     }
   ],
-  "paths": {    
+  "paths": {
     "/valuations/{city}": {
       "get": {
-        "tags": [
-          "Valuations"
-        ],
+        "tags": ["Valuations"],
         "summary": "Get a real state average valuation for a specific city.",
-        "description": "## Endpoint to get an average real estate valuation for a specific city. \n\n ### Success use cases: \n\n - Barcelona > Response with data of average valuation \n\n ### Failure use cases: \n\n - Florida > Without data",             
+        "description": "## Endpoint to get an average real estate valuation for a specific city. \n\n ### Success use cases: \n\n - Barcelona > Response with data of average valuation \n\n ### Failure use cases: \n\n - Florida > Without data",
         "parameters": [
           {
             "name": "city",
@@ -58,9 +56,7 @@
     },
     "/valuations": {
       "post": {
-        "tags": [
-          "Valuations"
-        ],
+        "tags": ["Valuations"],
         "summary": "Create a new valuation.",
         "description": "## Enpoint to persist the valuation of a real estate. \n\n This service was created only to fill the database with data. In the solution there should be a program that takes the data from the maching learning models and persists it in the database of this API. \n\n ### Request object example: \n\n        { \n\n            \"address\":\"Carrer de Pau Alsina 10, Principal A\", \n\n            \"latitude\":41.410610, \n\n            \"longitude\":2.161880, \n\n            \"zipcode\":\"08025\", \n\n            \"city\":\"Barcelona\", \n\n            \"year_of_construction\":1900, \n\n            \"year_of_renovation\":2020, \n\n            \"total_price\":450000, \n\n            \"total_area\":83, \n\n            \"price_m2\":5421, \n\n            \"has_elevator\":true, \n\n            \"valuation_date\":\"10/09/2021\" \n\n        } \n\n ### Notas: \n\n - Address, Zipcode y City have a unique compound constraint. \n\n - Latitude y Longitude have a unique compound constraint. \n\n - City, Latitude y Longitude have a index.",
         "consumes": "application/json",
@@ -168,10 +164,13 @@
             "schema": {
               "example": {
                 "status": "OK",
-                "data": {
-                  "_id": "Madrid",
-                  "average": 7750
-                }
+                "data": [
+                  {
+                    "_id": "Barcelona",
+                    "average": 5207,
+                    "count": 3
+                  }
+                ]
               }
             }
           }

@@ -1,43 +1,46 @@
-const Valuation = require('../models/valuation');
-const AppError = require('../errors/appError');
+const Valuation = require("../models/valuation");
+const AppError = require("../errors/appError");
 class ValuationRepository {
+  constructor() {}
 
-    constructor(){
+  findAll() {
+    return Valuation.find();
+  }
 
-    }
+  findById(id) {
+    return Valuation.findById(id);
+  }
 
+  save(valuation) {
+    return Valuation.create(valuation);
+  }
 
-    async findAll(){
-        return await Valuation.find();
-    }
+  update(id, valuation) {
+    return Valuation.findByIdAndUpdate(id, valuation, { new: true });
+  }
 
-    async findById(id) {
-        return await Valuation.findById(id);
-    }
+  remove(id) {
+    return Valuation.findByIdAndRemove(id);
+  }
 
-    async save(valuation) {
-        return await Valuation.create(valuation);
-    }
+  averageByCity(city) {
+    return Valuation.aggregate([
+      { $match: { city: { $regex: city, $options: "i" } } },
+      {
+        $group: {
+          _id: "$city",
+          average: { $avg: "$price_m2" },
+          count: { $sum: 1 },
+        },
+      },
+    ]).exec();
+  }
 
-    async update(id, valuation){
-        return await Valuation.findByIdAndUpdate(id, valuation, {new : true});
-    }
-
-    async remove(id) {
-        return await Valuation.findByIdAndRemove(id);
-    }
-
-    async averageByCity(city) {
-
-        return await Valuation.aggregate([
-            { $match: { city: { $regex: city, $options:'i' } } },
-            { $group: { _id: '$city', average: { $avg: '$price_m2' } } },
-          ]).exec();
-    }
-
-    async thereAreValuationsForCity(city){
-        return await Valuation.findOne({ city: { $regex: city, $options:'i' } }).select("_id").lean();
-    }
+  thereAreValuationsForCity(city) {
+    return Valuation.findOne({ city: { $regex: city, $options: "i" } })
+      .select("_id")
+      .lean();
+  }
 }
 
-module.exports = ValuationRepository;
+module.exports = new ValuationRepository();
