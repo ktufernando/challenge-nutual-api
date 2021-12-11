@@ -3,7 +3,7 @@
   "info": {
     "title": "API for Nutual challenge",
     "description": "## Challenge for Nutual company. API to retrieve the average value of the m2 of a city.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "contact": {
       "email": "fervaldes11@gmail.com"
     }
